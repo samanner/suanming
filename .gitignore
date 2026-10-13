@@ -5,3 +5,4 @@ sync.log
 .kimi/
 lib/package/
 lib/*.tgz
+sync.ps1
