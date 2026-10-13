@@ -4,3 +4,4 @@ README.txt
 sync.log
 .kimi/
 lib/package/
+lib/*.tgz
