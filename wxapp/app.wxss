@@ -1,0 +1,213 @@
+/* ========== 全局样式 · 深色国风 ========== */
+page {
+  background: #0d0a08;
+  color: #e8ddcb;
+  font-family: "PingFang SC", "Microsoft YaHei", serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+/* ---- 自定义导航栏 ---- */
+.nav-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #0d0a08;
+  border-bottom: 1rpx solid #3a2e22;
+}
+.navbar {
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.nav-title {
+  font-size: 32rpx;
+  color: #e6c07a;
+  font-weight: 700;
+  letter-spacing: 6rpx;
+}
+.nav-back {
+  position: absolute;
+  left: 24rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  color: #e6c07a;
+}
+
+/* ---- 页面容器 ---- */
+.container {
+  padding: 0 28rpx 60rpx;
+}
+
+/* ---- 卡片 ---- */
+.card {
+  background: #1a140f;
+  border: 1rpx solid #3a2e22;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  margin-top: 24rpx;
+}
+.card-title {
+  font-size: 30rpx;
+  color: #e6c07a;
+  letter-spacing: 6rpx;
+  margin-bottom: 24rpx;
+  font-weight: 700;
+}
+.card-title::before {
+  content: "☰ ";
+  color: #c0392b;
+}
+
+/* ---- 表单 ---- */
+.form-item {
+  margin-bottom: 28rpx;
+}
+.label {
+  font-size: 24rpx;
+  color: #9a8a74;
+  display: block;
+  margin-bottom: 10rpx;
+}
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+.label-row .label {
+  margin-bottom: 0;
+}
+.input, .picker-value {
+  background: #14100c;
+  border: 1rpx solid #3a2e22;
+  color: #e8ddcb;
+  padding: 18rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+}
+.picker-value.disabled {
+  color: #5a4c3a;
+}
+.input-placeholder {
+  color: #5a4c3a;
+}
+
+/* ---- 按钮 ---- */
+.btn-primary {
+  background: linear-gradient(135deg, #8e2620, #c0392b) !important;
+  color: #ffeeee !important;
+  border: none !important;
+  border-radius: 12rpx !important;
+  font-size: 32rpx !important;
+  letter-spacing: 8rpx !important;
+  font-weight: 700 !important;
+  padding: 18rpx 0 !important;
+  width: 100% !important;
+}
+.btn-primary::after {
+  border: none !important;
+}
+.btn-secondary {
+  background: #14100c !important;
+  border: 1rpx solid #3a2e22 !important;
+  color: #9a8a74 !important;
+  border-radius: 10rpx !important;
+  font-size: 24rpx !important;
+  padding: 12rpx 28rpx !important;
+  display: inline-block !important;
+  width: auto !important;
+}
+.btn-secondary::after {
+  border: none !important;
+}
+.btn-area {
+  margin-top: 32rpx;
+}
+
+/* ---- 提示文字 ---- */
+.hint {
+  font-size: 22rpx;
+  color: #9a8a74;
+  margin-top: 16rpx;
+  text-align: center;
+}
+
+/* ---- 免责 ---- */
+.disclaimer {
+  text-align: center;
+  font-size: 20rpx;
+  color: #6a5c48;
+  margin-top: 40rpx;
+  line-height: 1.9;
+  padding: 0 20rpx;
+}
+
+/* ---- 空状态 ---- */
+.empty {
+  text-align: center;
+  color: #9a8a74;
+  padding: 60rpx 0;
+  font-size: 26rpx;
+  letter-spacing: 2rpx;
+}
+
+/* ---- 错误提示 ---- */
+.err-box {
+  background: rgba(192,57,43,.12);
+  border: 1rpx solid #c0392b;
+  color: #e08080;
+  padding: 16rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  margin-top: 20rpx;
+}
+
+/* ---- 结果页标签导航 ---- */
+.result-tabs {
+  display: flex;
+  gap: 12rpx;
+  padding: 0 28rpx;
+  margin-top: 24rpx;
+}
+.result-tab {
+  flex: 1;
+  background: #14100c;
+  border: 1rpx solid #3a2e22;
+  color: #9a8a74;
+  padding: 18rpx 6rpx;
+  font-size: 26rpx;
+  letter-spacing: 2rpx;
+  border-radius: 12rpx;
+  text-align: center;
+}
+.result-tab.active {
+  background: linear-gradient(135deg, rgba(230,192,122,.16), rgba(192,57,43,.12));
+  color: #e6c07a;
+  border-color: #e6c07a;
+  font-weight: 700;
+}
+
+/* ---- 通用 ---- */
+.gold { color: #e6c07a; }
+.gold2 { color: #f5deb0; }
+.cyan { color: #7ec8c8; }
+.dim { color: #9a8a74; }
+.red { color: #c0392b; }
+.green { color: #8fbc8f; }
+.text-center { text-align: center; }
+.mt-16 { margin-top: 16rpx; }
+.mt-24 { margin-top: 24rpx; }
+
+/* ---- 滚动条 ---- */
+::-webkit-scrollbar { width: 0; height: 0; }

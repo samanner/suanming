@@ -13,8 +13,9 @@ window.onerror = function(msg, src, line){
   return false;
 };
 </script>
-<script src="lib/lunar.js?v=20261013"></script>
-<script src="lib/iztro.min.js?v=20261013"></script>
+<script src="lib/lunar.js?v=20261014"></script>
+<script src="lib/iztro.min.js?v=20261014"></script>
+<script src="lib/v02-extra.js?v=20261014"></script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   :root {
@@ -108,7 +109,7 @@ window.onerror = function(msg, src, line){
 <header>
   <div class="seal">占</div>
   <h1>赛博命理馆</h1>
-  <div class="sub">八字 · 紫微 · 三术交叉验证 <b>真排盘引擎</b>，非AI臆造<span class="badge">v0.1</span></div>
+  <div class="sub">八字 · 紫微 · 三术交叉验证 <b>真排盘引擎</b>，非AI臆造<span class="badge">v0.2</span></div>
 </header>
 
 <div class="card">
@@ -121,6 +122,7 @@ window.onerror = function(msg, src, line){
   </div>
   <div class="center"><button class="btn" onclick="paipan()">起 盘</button></div>
   <div class="hint">时辰不确定可先留空，仅排八字前三柱；紫微斗数需精确时辰</div>
+  <div id="caseList"></div>
   <div id="errBox"></div>
 </div>
 
@@ -131,6 +133,7 @@ window.onerror = function(msg, src, line){
       <button class="tab active" id="tabBtn0" onclick="switchTab(0)">八字命盘</button>
       <button class="tab" id="tabBtn1" onclick="switchTab(1)">紫微斗数</button>
       <button class="tab" id="tabBtn2" onclick="switchTab(2)">三术合参</button>
+      <button class="tab" id="tabBtn3" onclick="switchTab(3)">流年运势</button>
     </div>
   </div>
 
@@ -179,7 +182,16 @@ window.onerror = function(msg, src, line){
       <div class="center">
         <button class="btn2" onclick="copyPrompt()">📋 复制解读指令</button>
         <button class="btn2" onclick="downloadBook()">⬇ 导出命书(.txt)</button>
+        <button class="btn2" onclick="shareChart()">📷 分享盘面</button>
       </div>
+    </div>
+  </div>
+
+  <!-- 流年运势 -->
+  <div class="pane" id="pane3">
+    <div class="card">
+      <h2 class="sec">流 年 运 势</h2>
+      <div id="liuNianArea"><div class="empty">请先起盘</div></div>
     </div>
   </div>
 </div>
@@ -237,10 +249,11 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function fmtTime(){ return ('0'+CHART.h).slice(-2)+':'+('0'+CHART.mi).slice(-2); }
 
 function switchTab(i){
-  [0,1,2].forEach(k=>{
+  [0,1,2,3].forEach(k=>{
     el('pane'+k).classList.toggle('show', k===i);
     el('tabBtn'+k).classList.toggle('active', k===i);
   });
+  if(i===3) renderLiuNian();
 }
 
 /* ---------------- 起盘主流程 ---------------- */
@@ -271,6 +284,7 @@ function paipan(){
       el('zwGrid').innerHTML='';
     }
     renderCross();
+    saveCase();
     el('resultArea').style.display='block';
     switchTab(0);
     setTimeout(()=>el('resultArea').scrollIntoView({behavior:'smooth'}), 60);
@@ -315,19 +329,24 @@ function renderBazi(){
   const colors = {木:'#6a9955',火:'#d9534f',土:'#c8a165',金:'#c0c0c8',水:'#4a86b0'};
   el('wxBar').innerHTML = order.map(w=>'<div class="wx-seg wx-'+w+'" style="width:'+(counts[w]/total*100)+'%">'+(counts[w]>0?w:'')+'</div>').join('');
   el('wxLegend').innerHTML = order.map(w=>'<span><span style="color:'+colors[w]+'">■</span> '+w+'×'+counts[w]+'</span>').join('');
-  const dmEl = GAN_WX[ec.getDayGan()];
-  const dmSheng = SHENG[dmEl], dmKe = KE[dmEl];
-  let support = 0;
-  pillars.forEach(p=>{ [GAN_WX[p.gan],ZHI_WX[p.zhi]].forEach(wx=>{ if(wx===dmEl||SHENG[wx]===dmEl) support++; }); });
-  const pct = Math.round(support/total*100);
-  const state = pct>=63 ? '偏旺' : pct>=50 ? '中和偏旺' : pct>=38 ? '中和' : '偏弱';
-  const xiyong = pct>=50
-    ? '宜泄耗：喜<b style="color:'+colors[dmSheng]+'">'+dmSheng+'</b>（食伤泄秀）、<b style="color:'+colors[dmKe]+'">'+dmKe+'</b>（财星破印），忌再逢生扶'
-    : '宜生扶：喜<b style="color:'+colors[dmEl]+'">'+dmEl+'</b>（比劫帮身）、喜生我之印绶，忌'+dmKe+'（财耗）与官杀重压';
-  el('wxText').innerHTML =
-    '<p style="font-size:13.5px;line-height:2">日主 <b style="color:var(--gold2)">'+ec.getDayGan()+dmEl+'</b> 生于'+lunar.getMonthZhi()+'月，'
-    +'同气及生扶之力约 <b>'+pct+'%</b>，判为 <span class="tagx '+(pct>=50?'r':'g')+'">'+state+'</span></p>'
-    +'<p style="font-size:12.5px;color:var(--dim);line-height:2">'+xiyong+'（程序按干支行数简化推断，未涉刑冲合会，供参考）</p>';
+
+  /* 旺衰精细化判定 */
+  const ws = detailedWangShuai();
+  if(ws){
+    const dmEl = ws.dmEl;
+    const dmSheng = SHENG[dmEl], dmKe = KE[dmEl];
+    const state = ws.state;
+    const pct = ws.pct;
+    const xiyong = pct>=55
+      ? '宜泄耗：喜<b style="color:'+colors[dmSheng]+'">'+dmSheng+'</b>（食伤泄秀）、<b style="color:'+colors[dmKe]+'">'+dmKe+'</b>（财星破印），忌再逢生扶'
+      : '宜生扶：喜<b style="color:'+colors[dmEl]+'">'+dmEl+'</b>（比劫帮身）、喜生我之印绶，忌'+dmKe+'（财耗）与官杀重压';
+    el('wxText').innerHTML =
+      '<p style="font-size:13.5px;line-height:2">日主 <b style="color:var(--gold2)">'+ec.getDayGan()+dmEl+'</b> 生于'+lunar.getMonthZhi()+'月（'+ZHI_WX[ws.monthZhi]+'），'
+      +'综合得分 <b>'+ws.score+'</b>/'+ws.maxScore+'，判为 <span class="tagx '+(pct>=55?'r':'g')+'">'+state+'</span>（'+pct+'%）</p>'
+      +'<p style="font-size:12.5px;color:var(--dim);line-height:2">'+xiyong+'</p>'
+      +'<details style="margin-top:8px"><summary style="font-size:11px;color:var(--dim);cursor:pointer">📐 计算明细</summary>'
+      +'<ul style="font-size:11px;color:var(--dim);padding-left:16px;margin-top:4px">'+ws.details.map(d=>'<li>'+d+'</li>').join('')+'</ul></details>';
+  }
 
   /* 大运 */
   try {
@@ -364,24 +383,7 @@ function renderZiwei(){
     +(chart.sign?'　|　星座：'+esc(chart.sign):'');
 
   const order = ['命宫','兄弟','夫妻','子女','财帛','疾厄','迁移','仆役','官禄','田宅','福德','父母'];
-  const sorted = order.map(n=>palaces.find(p=>p.name===n)).filter(Boolean);
-  el('zwGrid').innerHTML = sorted.map(p=>{
-    const majors = (p.majorStars||[]).map(s=>{
-      const mut = s.mutagen ? '<span class="mut '+mutName[s.mutagen]+'">'+s.mutagen+'</span>' : '';
-      const br = s.brightness ? '<span class="bright">'+esc(s.brightness)+'</span>' : '';
-      return '<div><span class="major">'+esc(s.name)+'</span>'+br+mut+'</div>';
-    }).join('');
-    const minors = (p.minorStars||[]).map(s=>'<span class="minor">'+esc(s.name)+'</span>').join(' ');
-    const adj = p.adjectiveStars||{};
-    const aux = [...(adj.adjuvantStars||[]),...(adj.beneficialStars||[])].map(s=>'<span class="minor">'+esc(s.name||s)+'</span>').join(' ');
-    const bads = (adj.maleficStars||[]).map(s=>'<span class="bad">'+esc(s.name||s)+'</span>').join(' ');
-    const cls = (p.name==='命宫'?'ming ':'')+(p.isBodyPalace?'shen':'');
-    return '<div class="palace '+cls+'">'
-      +'<div class="p-name">'+esc(p.name)+(p.isBodyPalace?' <span style="color:var(--cyan);font-size:10px">身</span>':'')+'</div>'
-      +'<div class="p-branch">'+esc(p.heavenlyStem||'')+esc(p.earthlyBranch||'')+' · '+esc(p.changsheng12||'')+'</div>'
-      +'<div class="p-star">'+majors+(minors?'<div>'+minors+'</div>':'')+(aux?'<div>'+aux+'</div>':'')+(bads?'<div>'+bads+'</div>':'')+'</div>'
-      +'</div>';
-  }).join('');
+  el('zwGrid').innerHTML = renderZiweiBorrow(chart);
 }
 
 /* ---------------- 三术合参 ---------------- */
@@ -431,9 +433,17 @@ function renderCross(){
     +(zw?'<li><b>紫微夫妻宫</b>：'+palaceBrief(zw,'夫妻')+'</li>':'')
     +'</ul></div>';
 
-  /* 4. 大运提示 */
+  /* 4. 十神组合 */
+  const combos = getShiShenCombos();
+  if(combos.length){
+    html += '<div class="report"><h4>◈ 十神组合</h4><ul>'
+      +combos.map(c=>'<li><b style="color:var(--gold2)">'+c.name+'</b>：'+c.desc+'</li>').join('')
+      +'</ul></div>';
+  }
+
+  /* 5. 大运提示 */
   html += '<div class="report"><h4>◈ 近期大运提示</h4><p style="font-size:12.5px;color:var(--dim)">'
-    +'结合八字大运干支与当前流年，可细化逐年运势——见下方 AI 深度解读，或预约本馆明日上线的「流年批断」模块。</p></div>';
+    +'结合八字大运干支与当前流年，可细化逐年运势——切换到「流年运势」页签查看逐年分析。</p></div>';
 
   el('crossReport').innerHTML = html;
   buildAiPrompt();
@@ -503,6 +513,7 @@ function downloadBook(){
 (function(){
   el('fDate').value = '1995-08-16';
   el('fTime').value = '14:30';
+  renderCaseList();
   if (location.search.indexOf('auto=1') >= 0) { setTimeout(function(){ paipan(); if(location.search.indexOf('tab=1')>=0) switchTab(1); if(location.search.indexOf('tab=2')>=0) switchTab(2); }, 300);}
 })();
 </script>

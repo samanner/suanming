@@ -1,0 +1,122 @@
+<!-- 八字命盘页 -->
+<view class="nav-wrap" style="padding-top: {{statusBarHeight}}px;">
+  <view class="navbar">
+    <view class="nav-back" bindtap="goBazi">‹</view>
+    <view class="nav-title">八字命盘</view>
+  </view>
+</view>
+
+<view style="padding-top: {{statusBarHeight + 44}}px;">
+
+  <!-- 头部信息 -->
+  <view class="card" style="margin: 24rpx 28rpx 0;">
+    <view class="head-info">
+      <view>{{headInfo}}</view>
+      <view class="dim" style="font-size:24rpx;margin-top:8rpx;">{{lunarInfo}}</view>
+    </view>
+  </view>
+
+  <!-- 标签导航 -->
+  <view class="result-tabs">
+    <view class="result-tab active" bindtap="goBazi">八字命盘</view>
+    <view class="result-tab" bindtap="goZiwei" wx:if="{{chart.hasTime}}">紫微斗数</view>
+    <view class="result-tab disabled" wx:else>紫微斗数</view>
+    <view class="result-tab" bindtap="goCross">三术合参</view>
+  </view>
+
+  <!-- 四柱排盘 -->
+  <view class="card">
+    <view class="card-title">四 柱 排 盘</view>
+    <view class="pillar-table">
+      <!-- 表头 -->
+      <view class="pillar-row">
+        <view class="pillar-cell pillar-label"></view>
+        <view class="pillar-cell pillar-head" wx:for="{{pillars}}" wx:key="label">{{item.label}}</view>
+      </view>
+      <!-- 天干 -->
+      <view class="pillar-row">
+        <view class="pillar-cell pillar-label">
+          <text>天干</text>
+          <text class="col-sub">十神</text>
+        </view>
+        <view class="pillar-cell {{item.label === '日柱' ? 'dm-cell' : ''}}" wx:for="{{pillars}}" wx:key="label">
+          <view class="gz-char gan-char">{{item.gan}}</view>
+          <view class="ss-text">{{item.sg}}</view>
+        </view>
+      </view>
+      <!-- 地支 -->
+      <view class="pillar-row">
+        <view class="pillar-cell pillar-label">
+          <text>地支</text>
+          <text class="col-sub">藏干·十神</text>
+        </view>
+        <view class="pillar-cell {{item.label === '日柱' ? 'dm-cell' : ''}}" wx:for="{{pillars}}" wx:key="label">
+          <view class="gz-char zhi-char">{{item.zhi}}</view>
+          <view class="ss-text" wx:for="{{item.hide}}" wx:for-item="h" wx:key="gan">{{h.gan}}<text wx:if="{{h.ss}}">({{h.ss}})</text></view>
+        </view>
+      </view>
+      <!-- 纳音 -->
+      <view class="pillar-row">
+        <view class="pillar-cell pillar-label">
+          <text>纳音</text>
+        </view>
+        <view class="pillar-cell" wx:for="{{pillars}}" wx:key="label">
+          <view class="ss-text">{{item.ny}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 五行气数 -->
+  <view class="card">
+    <view class="card-title">五 行 气 数</view>
+    <view class="wx-bar">
+      <view class="wx-seg" wx:for="{{wxBar}}" wx:key="name"
+            style="width: {{item.pct}}%; background: {{item.color}};">
+        <text wx:if="{{item.count > 0}}" class="wx-seg-text">{{item.name}}</text>
+      </view>
+    </view>
+    <view class="wx-legend">
+      <view class="wx-legend-item" wx:for="{{wxBar}}" wx:key="name">
+        <text style="color: {{item.color}};">■</text>
+        <text class="dim" style="margin-left:6rpx;">{{item.name}}×{{item.count}}</text>
+      </view>
+    </view>
+
+    <!-- 旺衰判定 -->
+    <view class="wx-analysis" wx:if="{{dayMaster}}">
+      <view class="wx-line">
+        日主
+        <text class="gold2 strong">{{dayMaster.gan}}{{dayMaster.element}}</text>
+        生于{{dayMaster.monthZhi}}月，同气及生扶之力约
+        <text class="strong">{{dayMaster.supportPct}}%</text>
+        ，判为
+        <text class="state-tag state-{{dayMaster.stateType}}">{{dayMaster.state}}</text>
+      </view>
+      <view class="xiyong-text">{{dayMaster.xiyong}}</view>
+      <view class="dim" style="font-size:22rpx;margin-top:12rpx;">（程序按干支行数简化推断，未涉刑冲合会，供参考）</view>
+    </view>
+  </view>
+
+  <!-- 大运 -->
+  <view class="card">
+    <view class="card-title">大 运</view>
+    <scroll-view scroll-x class="dayun-scroll">
+      <view class="dayun-row" style="width: {{(dayun.length + 1) * 140}}rpx;">
+        <view class="dayun-cell dayun-head">大运</view>
+        <view class="dayun-cell dayun-head" wx:for="{{dayun}}" wx:key="ganZhi">{{item.ganZhi}}</view>
+      </view>
+      <view class="dayun-row" style="width: {{(dayun.length + 1) * 140}}rpx;">
+        <view class="dayun-cell dayun-label">年份</view>
+        <view class="dayun-cell dayun-value" wx:for="{{dayun}}" wx:key="ganZhi">{{item.years}}</view>
+      </view>
+      <view class="dayun-row" style="width: {{(dayun.length + 1) * 140}}rpx;">
+        <view class="dayun-cell dayun-label">岁数</view>
+        <view class="dayun-cell dayun-value" wx:for="{{dayun}}" wx:key="ganZhi">{{item.ages}}</view>
+      </view>
+    </scroll-view>
+    <view class="hint" style="text-align:left;margin-top:16rpx;">{{dayunNote}}</view>
+  </view>
+
+  <view style="height: 40rpx;"></view>
+</view>

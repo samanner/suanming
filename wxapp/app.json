@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/bazi/bazi",
+    "pages/ziwei/ziwei",
+    "pages/cross/cross",
+    "pages/history/history"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#0d0a08",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

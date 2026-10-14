@@ -1,0 +1,171 @@
+.head-info {
+  font-size: 26rpx;
+  color: #9a8a74;
+  line-height: 1.8;
+}
+
+/* ---- 四柱表格 ---- */
+.pillar-table {
+  background: #14100c;
+  border-radius: 14rpx;
+  overflow: hidden;
+}
+.pillar-row {
+  display: flex;
+  border-bottom: 1rpx solid #3a2e22;
+}
+.pillar-row:last-child {
+  border-bottom: none;
+}
+.pillar-cell {
+  flex: 1;
+  padding: 16rpx 8rpx;
+  text-align: center;
+  border-right: 1rpx solid #3a2e22;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pillar-cell:last-child {
+  border-right: none;
+}
+.pillar-label {
+  flex: 0 0 90rpx;
+  font-size: 22rpx;
+  color: #9a8a74;
+}
+.col-sub {
+  font-size: 18rpx;
+  color: #6a5c48;
+  margin-top: 4rpx;
+}
+.pillar-head {
+  font-size: 26rpx;
+  color: #e6c07a;
+  font-weight: 600;
+  background: rgba(230, 192, 122, .08);
+}
+.gz-char {
+  font-size: 38rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+}
+.gan-char {
+  color: #d98f4a;
+}
+.zhi-char {
+  color: #7ec8c8;
+}
+.ss-text {
+  font-size: 20rpx;
+  color: #9a8a74;
+  line-height: 1.6;
+}
+.dm-cell {
+  background: rgba(192, 57, 43, .10);
+}
+
+/* ---- 五行气数 ---- */
+.wx-bar {
+  display: flex;
+  height: 40rpx;
+  border-radius: 10rpx;
+  overflow: hidden;
+  border: 1rpx solid #3a2e22;
+}
+.wx-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width .6s;
+}
+.wx-seg-text {
+  font-size: 20rpx;
+  color: rgba(0, 0, 0, .6);
+  font-weight: 700;
+}
+.wx-legend {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 14rpx;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+.wx-legend-item {
+  font-size: 24rpx;
+}
+.wx-analysis {
+  margin-top: 24rpx;
+}
+.wx-line {
+  font-size: 26rpx;
+  line-height: 2;
+}
+.strong {
+  font-weight: 700;
+  color: #f5deb0;
+}
+.state-tag {
+  display: inline-block;
+  font-size: 22rpx;
+  padding: 2rpx 16rpx;
+  border-radius: 16rpx;
+  margin-left: 8rpx;
+}
+.state-strong {
+  background: rgba(217, 83, 79, .12);
+  color: #e08080;
+  border: 1rpx solid #a05050;
+}
+.state-weak {
+  background: rgba(143, 188, 143, .15);
+  color: #8fbc8f;
+  border: 1rpx solid #8fbc8f;
+}
+.state-balance {
+  background: rgba(126, 200, 200, .12);
+  color: #7ec8c8;
+  border: 1rpx solid #7ec8c8;
+}
+.xiyong-text {
+  font-size: 24rpx;
+  color: #9a8a74;
+  line-height: 1.8;
+  margin-top: 10rpx;
+}
+
+/* ---- 大运 ---- */
+.dayun-scroll {
+  white-space: nowrap;
+}
+.dayun-row {
+  display: flex;
+  border-bottom: 1rpx solid #3a2e22;
+}
+.dayun-row:last-child {
+  border-bottom: none;
+}
+.dayun-cell {
+  flex: 0 0 140rpx;
+  padding: 14rpx 8rpx;
+  text-align: center;
+  border-right: 1rpx solid #3a2e22;
+  font-size: 24rpx;
+}
+.dayun-cell:last-child {
+  border-right: none;
+}
+.dayun-head {
+  color: #e6c07a;
+  font-weight: 600;
+  background: rgba(230, 192, 122, .08);
+}
+.dayun-label {
+  color: #9a8a74;
+  font-size: 22rpx;
+}
+.dayun-value {
+  color: #e8ddcb;
+  font-size: 22rpx;
+}
