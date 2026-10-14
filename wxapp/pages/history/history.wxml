@@ -1,0 +1,36 @@
+<!-- 历史命例页 -->
+<view class="nav-wrap" style="padding-top: {{statusBarHeight}}px;">
+  <view class="navbar">
+    <view class="nav-back" bindtap="goBack">‹</view>
+    <view class="nav-title">历史命例</view>
+  </view>
+</view>
+
+<view style="padding-top: {{statusBarHeight + 44}}px; padding-left: 28rpx; padding-right: 28rpx;">
+
+  <view class="empty-hint" wx:if="{{cases.length === 0}}">
+    <view style="font-size:60rpx;margin-bottom:20rpx;">📭</view>
+    <view>暂无历史命例</view>
+    <view style="font-size:24rpx;margin-top:12rpx;color:#9a8a74;">起盘后会自动保存到这里</view>
+  </view>
+
+  <view class="case-list" wx:if="{{cases.length > 0}}">
+    <view class="case-card" wx:for="{{cases}}" wx:key="id" bindtap="loadCase" data-index="{{index}}">
+      <view class="case-info">
+        <view class="case-name">
+          {{item.name || '未命名'}}
+          <text class="case-gender">{{item.gender === '男' ? '乾' : '坤'}}</text>
+        </view>
+        <view class="case-detail">{{item.solarYmd}} {{item.hasTime ? (item.h !== null ? item.h + ':' + (item.mi < 10 ? '0' + item.mi : item.mi) : '') : ''}}</view>
+        <view class="case-lunar">{{item.lunarText}}</view>
+      </view>
+      <view class="case-delete" catchtap="deleteCase" data-id="{{item.id}}">×</view>
+    </view>
+  </view>
+
+  <view class="clear-btn-wrap" wx:if="{{cases.length > 0}}">
+    <button class="btn2" bindtap="clearAll" style="color:#e08080;border-color:#a05050;">清空全部</button>
+  </view>
+
+  <view style="height: 40rpx;"></view>
+</view>

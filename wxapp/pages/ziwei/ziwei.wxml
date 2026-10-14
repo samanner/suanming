@@ -1,0 +1,82 @@
+<!-- 紫微斗数页 -->
+<view class="nav-wrap" style="padding-top: {{statusBarHeight}}px;">
+  <view class="navbar">
+    <view class="nav-back" bindtap="goIndex">‹</view>
+    <view class="nav-title">紫微斗数</view>
+  </view>
+</view>
+
+<view style="padding-top: {{statusBarHeight + 44}}px;">
+
+  <!-- 头部信息 -->
+  <view class="card" style="margin: 24rpx 28rpx 0;">
+    <view class="head-info">
+      <view>{{headInfo}}</view>
+    </view>
+  </view>
+
+  <!-- 标签导航 -->
+  <view class="result-tabs">
+    <view class="result-tab" bindtap="goBazi">八字命盘</view>
+    <view class="result-tab active">紫微斗数</view>
+    <view class="result-tab" bindtap="goCross">三术合参</view>
+  </view>
+
+  <!-- 命盘总览 -->
+  <view class="card">
+    <view class="card-title">命 盘 总 览</view>
+    <view class="zw-head">
+      <view class="zw-info-row">
+        <text class="dim">五行局：</text>
+        <text class="gold2 strong">{{zw.fiveElementsClass}}</text>
+      </view>
+      <view class="zw-info-row">
+        <text class="dim">命宫在</text>
+        <text class="gold2 strong">{{zw.mingGanzhi}}</text>
+        <text class="dim" style="margin-left:24rpx;">身宫在</text>
+        <text class="cyan strong">{{zw.shenBranch}}</text>
+      </view>
+      <view class="zw-info-row" wx:if="{{zw.sign}}">
+        <text class="dim">星座：</text>
+        <text class="gold">{{zw.sign}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 十二宫 -->
+  <view class="card">
+    <view class="card-title">十 二 宫</view>
+    <view class="palace-grid">
+      <view class="palace {{p.isMing ? 'palace-ming' : ''}} {{p.isBody ? 'palace-shen' : ''}}"
+            wx:for="{{zw.palaces}}" wx:key="name">
+        <view class="palace-name">
+          {{p.name}}
+          <text class="body-tag" wx:if="{{p.isBody}}">身</text>
+        </view>
+        <view class="palace-ganzhi">{{p.ganzhi}} · {{p.changsheng12}}</view>
+        <view class="palace-stars">
+          <!-- 主星 -->
+          <view class="star-major" wx:for="{{p.majorStars}}" wx:for-item="s" wx:key="name">
+            <text class="star-name">{{s.name}}</text>
+            <text class="star-bright" wx:if="{{s.brightness}}">{{s.brightness}}</text>
+            <text class="star-mut mut-{{s.mutagenClass}}" wx:if="{{s.mutagen}}">{{s.mutagen}}</text>
+          </view>
+          <!-- 无主星借对宫 -->
+          <view class="borrow" wx:if="{{!p.hasMajor}}">
+            <text>借对宫</text>
+            <text class="borrow-stars">{{p.borrowText}}</text>
+          </view>
+          <!-- 辅星 -->
+          <view class="star-minor" wx:if="{{p.minorText}}">{{p.minorText}}</view>
+          <!-- 杂曜 -->
+          <view class="star-aux" wx:if="{{p.auxText}}">{{p.auxText}}</view>
+          <!-- 煞星 -->
+          <view class="star-bad" wx:if="{{p.badText}}">{{p.badText}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="hint" style="text-align:left;margin-top:12rpx;">金框＝命宫 · 蓝框＝身宫 · 红标＝四化（禄权科忌）</view>
+  </view>
+
+  <view style="height: 40rpx;"></view>
+</view>

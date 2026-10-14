@@ -1,0 +1,71 @@
+/* 紫微斗数页样式 */
+.zw-head { padding: 10rpx 0; }
+.zw-info-row { font-size: 28rpx; line-height: 2.2; color: #e8ddcb; }
+.cyan { color: #7ec8c8; }
+
+.palace-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+.palace {
+  width: calc(50% - 5rpx);
+  min-height: 200rpx;
+  background: #14100c;
+  border: 1rpx solid #3a2e22;
+  border-radius: 12rpx;
+  padding: 12rpx;
+  box-sizing: border-box;
+}
+.palace-ming {
+  border-color: #e6c07a !important;
+  box-shadow: 0 0 20rpx rgba(230,192,122,.15);
+}
+.palace-shen {
+  border-color: #7ec8c8 !important;
+}
+.palace-name {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #e6c07a;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.body-tag {
+  font-size: 20rpx;
+  color: #7ec8c8;
+  border: 1rpx solid #7ec8c8;
+  padding: 0 8rpx;
+  border-radius: 6rpx;
+}
+.palace-ganzhi {
+  font-size: 22rpx;
+  color: #9a8a74;
+  margin-top: 4rpx;
+}
+.palace-stars { margin-top: 8rpx; }
+.star-major { display: flex; align-items: center; gap: 6rpx; margin-bottom: 4rpx; }
+.star-name { font-size: 26rpx; font-weight: 700; color: #f5deb0; }
+.star-bright { font-size: 20rpx; color: #7ec8c8; }
+.star-mut {
+  display: inline-block;
+  color: #fff;
+  font-size: 18rpx;
+  padding: 0 8rpx;
+  border-radius: 6rpx;
+  margin-left: 4rpx;
+}
+.mut-m1 { background: #8e2620; }
+.mut-m2 { background: #b8860b; }
+.mut-m3 { background: #2e5c8a; }
+.mut-m4 { background: #5a2d82; }
+.borrow {
+  font-size: 20rpx;
+  color: #7a6c55;
+  margin-top: 4rpx;
+}
+.borrow-stars { color: #9a8a74; margin-left: 8rpx; }
+.star-minor { font-size: 22rpx; color: #9a8a74; line-height: 1.8; }
+.star-aux { font-size: 20rpx; color: #7a6c55; line-height: 1.8; }
+.star-bad { font-size: 20rpx; color: #d9534f; line-height: 1.8; }

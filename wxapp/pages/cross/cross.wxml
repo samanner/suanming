@@ -1,0 +1,110 @@
+<!-- 三术合参页 -->
+<view class="nav-wrap" style="padding-top: {{statusBarHeight}}px;">
+  <view class="navbar">
+    <view class="nav-back" bindtap="goIndex">‹</view>
+    <view class="nav-title">三术合参</view>
+  </view>
+</view>
+
+<view style="padding-top: {{statusBarHeight + 44}}px;">
+
+  <!-- 头部信息 -->
+  <view class="card" style="margin: 24rpx 28rpx 0;">
+    <view class="head-info">
+      <view>{{headInfo}}</view>
+    </view>
+  </view>
+
+  <!-- 标签导航 -->
+  <view class="result-tabs">
+    <view class="result-tab" bindtap="goBazi">八字命盘</view>
+    <view class="result-tab" bindtap="goZiwei" wx:if="{{chart.hasTime}}">紫微斗数</view>
+    <view class="result-tab disabled" wx:else>紫微斗数</view>
+    <view class="result-tab active">三术合参</view>
+  </view>
+
+  <!-- 性格画像 -->
+  <view class="card">
+    <view class="card-title">◈ 性格画像 · 日主 × 命宫</view>
+    <view class="report">
+      <view class="report-item">
+        <text class="report-label">八字日主</text>
+        <text class="report-tag gold2">{{cross.dayMaster.gan}}{{cross.dayMaster.element}}</text>
+        <text class="report-desc">{{cross.dayMaster.desc}}</text>
+      </view>
+      <view class="report-item" wx:if="{{cross.mingMajor}}">
+        <text class="report-label">紫微命宫</text>
+        <text class="report-tag gold2">{{cross.mingMajor}}</text>
+        <text class="report-desc">{{cross.mingMajorDesc}}</text>
+      </view>
+      <view class="report-item" wx:if="{{cross.fuMajor}}">
+        <text class="report-label">紫微福德</text>
+        <text class="report-tag gold2">{{cross.fuMajor}}</text>
+        <text class="report-desc">{{cross.fuMajorDesc}}（内在自我）</text>
+      </view>
+      <view class="cross-check" wx:if="{{cross.elementCheck}}">
+        <text class="dim">五行校验：</text>
+        <text>日主属{{cross.dayMaster.element}}，紫微五行属{{cross.zwElement}} —— </text>
+        <text class="agree" wx:if="{{cross.elementAgree}}">▲ 两术同气，互为印证</text>
+        <text class="disagree" wx:else>▼ 五行有异，存在内在张力</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 事业财向 -->
+  <view class="card">
+    <view class="card-title">◈ 事业 · 财帛</view>
+    <view class="report">
+      <view class="report-item">
+        <text class="report-label">十神倾向</text>
+        <text class="report-desc">{{cross.shishenText}}</text>
+      </view>
+      <view class="report-item" wx:if="{{cross.guanlu}}">
+        <text class="report-label">紫微官禄宫</text>
+        <text class="report-desc">{{cross.guanlu}}</text>
+      </view>
+      <view class="report-item" wx:if="{{cross.caibo}}">
+        <text class="report-label">紫微财帛宫</text>
+        <text class="report-desc">{{cross.caibo}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 感情 -->
+  <view class="card">
+    <view class="card-title">◈ 感情 · 夫妻</view>
+    <view class="report">
+      <view class="report-item">
+        <text class="report-label">八字日支</text>
+        <text class="report-desc">配偶宫 {{cross.dayZhi}}，藏干 {{cross.hideGan}}</text>
+      </view>
+      <view class="report-item" wx:if="{{cross.fuqi}}">
+        <text class="report-label">紫微夫妻宫</text>
+        <text class="report-desc">{{cross.fuqi}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 十神组合 -->
+  <view class="card" wx:if="{{cross.combos.length > 0}}">
+    <view class="card-title">◈ 十神组合</view>
+    <view class="report">
+      <view class="report-item" wx:for="{{cross.combos}}" wx:key="name">
+        <text class="report-tag gold2">{{item.name}}</text>
+        <text class="report-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- AI 解读 -->
+  <view class="card">
+    <view class="card-title">AI 深 度 解 读</view>
+    <view class="dim" style="font-size:24rpx;margin-bottom:12rpx;">以下为自动生成的命盘数据包＋解读指令，整段复制发给 AI 即可获得万字深度解析：</view>
+    <textarea class="ai-prompt" value="{{aiPrompt}}" readonly="true" auto-height="true" maxlength="-1" />
+    <view class="btn-row">
+      <button class="btn2" bindtap="copyPrompt">📋 复制解读指令</button>
+    </view>
+  </view>
+
+  <view style="height: 40rpx;"></view>
+</view>

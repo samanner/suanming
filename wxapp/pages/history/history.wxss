@@ -1,0 +1,55 @@
+/* 历史命例页样式 */
+.empty-hint {
+  text-align: center;
+  padding: 120rpx 0;
+  color: #9a8a74;
+  font-size: 28rpx;
+  letter-spacing: 2rpx;
+}
+.case-list { margin-top: 24rpx; }
+.case-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a140f;
+  border: 1rpx solid #3a2e22;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+}
+.case-info { flex: 1; }
+.case-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #e6c07a;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.case-gender {
+  font-size: 22rpx;
+  color: #9a8a74;
+  border: 1rpx solid #3a2e22;
+  padding: 2rpx 10rpx;
+  border-radius: 8rpx;
+}
+.case-detail {
+  font-size: 24rpx;
+  color: #e8ddcb;
+  margin-top: 8rpx;
+}
+.case-lunar {
+  font-size: 22rpx;
+  color: #9a8a74;
+  margin-top: 4rpx;
+}
+.case-delete {
+  font-size: 40rpx;
+  color: #e08080;
+  padding: 0 20rpx;
+  cursor: pointer;
+}
+.clear-btn-wrap {
+  text-align: center;
+  margin-top: 30rpx;
+}
